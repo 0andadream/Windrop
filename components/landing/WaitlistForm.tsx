@@ -85,7 +85,7 @@ export function WaitlistForm() {
       </div>
       <button
         type="submit"
-        className="rounded-2xl bg-gradient-to-r from-brand-500 to-purple-600 px-6 py-3.5 font-black text-white shadow-lg shadow-brand-500/30 transition hover:shadow-xl hover:shadow-brand-500/40 active:scale-[0.98]"
+        className="rounded-2xl bg-gradient-to-r from-navy-700 to-navy-900 px-6 py-3.5 font-black text-white shadow-lg shadow-brand-500/30 transition hover:shadow-xl hover:shadow-brand-500/40 active:scale-[0.98]"
       >
         Join Waitlist
       </button>

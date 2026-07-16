@@ -10,8 +10,8 @@ import { WaitlistForm } from "@/components/landing/WaitlistForm";
 function Eyebrow({ n, label }: { n: string; label: string }) {
   return (
     <div className="mb-4 flex items-center gap-3">
-      <span className="font-mono text-sm font-bold text-brand-500">{n}</span>
-      <span className="h-px w-8 bg-brand-500/40" />
+      <span className="font-mono text-sm font-bold text-gold-600">{n}</span>
+      <span className="h-px w-8 bg-gold-500/50" />
       <span className="text-sm font-bold uppercase tracking-widest text-slate-400">
         {label}
       </span>
@@ -23,7 +23,7 @@ function Eyebrow({ n, label }: { n: string; label: string }) {
 function ProfileMock() {
   return (
     <div className="w-full max-w-sm rounded-3xl border border-slate-200 bg-white p-5 shadow-2xl shadow-slate-900/10 dark:border-slate-800 dark:bg-slate-900">
-      <div className="mb-4 h-20 rounded-2xl bg-gradient-to-r from-brand-500 via-indigo-500 to-emerald-400" />
+      <div className="mb-4 h-20 rounded-2xl bg-gradient-to-r from-navy-700 via-navy-800 to-gold-500" />
       <div className="-mt-12 mb-3 flex items-end justify-between px-1">
         <div className="h-16 w-16 rounded-full border-4 border-white bg-gradient-to-br from-amber-400 to-pink-500 dark:border-slate-900" />
         <div className="flex items-center gap-2">
@@ -33,7 +33,7 @@ function ProfileMock() {
           <span className="rounded-full border border-slate-300 px-4 py-1.5 text-sm font-bold text-slate-800 dark:border-slate-600 dark:text-slate-100">
             Following
           </span>
-          <span className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-brand-500 via-indigo-500 to-purple-600 px-3.5 py-1.5 text-sm font-black text-white shadow-md shadow-brand-500/30">
+          <span className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-navy-700 via-navy-800 to-navy-900 px-3.5 py-1.5 text-sm font-black text-white shadow-md shadow-brand-500/30">
             🎟️ WinDrop
           </span>
         </div>
@@ -164,7 +164,7 @@ export default function Home() {
           className="pointer-events-none absolute inset-0 overflow-hidden"
         >
           <div className="absolute -left-24 top-0 h-72 w-72 rounded-full bg-brand-400/20 blur-3xl" />
-          <div className="absolute right-0 top-24 h-80 w-80 rounded-full bg-emerald-400/20 blur-3xl" />
+          <div className="absolute right-0 top-24 h-80 w-80 rounded-full bg-gold-400/20 blur-3xl" />
           <div className="absolute left-1/3 top-40 h-72 w-72 rounded-full bg-amber-300/20 blur-3xl" />
         </div>
 
@@ -178,7 +178,7 @@ export default function Home() {
 
               <h1 className="mt-6 text-5xl font-black leading-[1.05] tracking-tight text-slate-900 sm:text-6xl dark:text-white">
                 Gift lottery luck on X,{" "}
-                <span className="bg-gradient-to-r from-brand-500 via-indigo-500 to-emerald-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-gold-600 via-gold-500 to-gold-400 bg-clip-text text-transparent">
                   in one tap.
                 </span>
               </h1>
@@ -192,7 +192,7 @@ export default function Home() {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/gift"
-                  className="rounded-full bg-gradient-to-r from-brand-500 via-indigo-500 to-purple-600 bg-animated-gradient animate-gradient-pan px-7 py-3.5 text-center text-base font-black text-white shadow-lg shadow-brand-500/30 transition hover:shadow-xl hover:shadow-brand-500/40 active:scale-[0.98]"
+                  className="rounded-full bg-gradient-to-r from-navy-700 via-navy-800 to-navy-900 bg-animated-gradient animate-gradient-pan px-7 py-3.5 text-center text-base font-black text-white shadow-lg shadow-brand-500/30 transition hover:shadow-xl hover:shadow-brand-500/40 active:scale-[0.98]"
                 >
                   🎁 Gift Now
                 </Link>
@@ -250,7 +250,7 @@ export default function Home() {
           ].map((step, i) => (
             <Reveal key={step.n} delay={i * 120}>
               <div className="relative h-full rounded-3xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-7 dark:border-slate-800 dark:from-slate-900 dark:to-slate-900/40">
-                <span className="text-6xl font-black text-brand-500/15">
+                <span className="text-6xl font-black text-gold-500/25">
                   {step.n}
                 </span>
                 <h3 className="mt-2 text-xl font-black text-slate-900 dark:text-white">
@@ -296,7 +296,7 @@ export default function Home() {
               <Eyebrow n="03" label="Why WinDrop" />
               <h2 className="text-4xl font-black tracking-tight text-slate-900 sm:text-5xl dark:text-white">
                 A gift that&apos;s{" "}
-                <span className="bg-gradient-to-r from-amber-400 to-pink-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-gold-600 to-gold-400 bg-clip-text text-transparent">
                   built to spread.
                 </span>
               </h2>
@@ -337,7 +337,7 @@ export default function Home() {
                   key={b.stat}
                   className="flex items-center gap-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900"
                 >
-                  <span className="bg-gradient-to-br from-brand-500 to-emerald-500 bg-clip-text text-4xl font-black text-transparent">
+                  <span className="bg-gradient-to-br from-gold-600 to-gold-400 bg-clip-text text-4xl font-black text-transparent">
                     {b.stat}
                   </span>
                   <span className="text-slate-600 dark:text-slate-300">
@@ -410,7 +410,7 @@ export default function Home() {
       {/* ============ WAITLIST ============ */}
       <section id="waitlist" className="mx-auto max-w-3xl px-5 py-24 text-center">
         <Reveal>
-          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-brand-500 to-purple-600 text-3xl shadow-lg shadow-brand-500/30">
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-navy-700 to-navy-900 text-3xl shadow-lg shadow-brand-500/30">
             🎁
           </div>
           <h2 className="text-4xl font-black tracking-tight text-slate-900 sm:text-5xl dark:text-white">
@@ -440,9 +440,9 @@ export default function Home() {
             <svg width="26" height="26" viewBox="0 0 512 512" aria-hidden>
               <defs>
                 <linearGradient id="foot-mark" x1="0" y1="0" x2="512" y2="512">
-                  <stop offset="0" stopColor="#3563ff" />
-                  <stop offset="0.55" stopColor="#6d5cf6" />
-                  <stop offset="1" stopColor="#22c55e" />
+                  <stop offset="0" stopColor="#14264d" />
+                  <stop offset="0.55" stopColor="#12213f" />
+                  <stop offset="1" stopColor="#0a1430" />
                 </linearGradient>
               </defs>
               <rect width="512" height="512" rx="120" fill="url(#foot-mark)" />
@@ -452,11 +452,11 @@ export default function Home() {
               />
               <path
                 d="M256 250c8 34 18 44 52 52-34 8-44 18-52 52-8-34-18-44-52-52 34-8 44-18 52-52Z"
-                fill="#facc15"
+                fill="#e3c15a"
               />
             </svg>
             <span className="text-lg font-black text-slate-900 dark:text-white">
-              Win<span className="text-brand-500">Drop</span>
+              Win<span className="text-gold-600">Drop</span>
             </span>
           </div>
 

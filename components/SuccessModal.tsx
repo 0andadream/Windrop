@@ -15,7 +15,7 @@ interface SuccessModalProps {
 
 function fireConfetti() {
   const end = Date.now() + 900;
-  const colors = ["#3563ff", "#8b5cf6", "#f59e0b", "#ec4899"];
+  const colors = ["#0a1430", "#c69326", "#e3c15a", "#365286"];
   (function frame() {
     confetti({
       particleCount: 4,
@@ -60,7 +60,7 @@ export function SuccessModal({
         className="w-full max-w-sm animate-pop-in rounded-3xl bg-white p-8 text-center shadow-2xl dark:bg-slate-900"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mx-auto mb-4 flex h-20 w-20 animate-float items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-purple-600 text-4xl shadow-lg shadow-brand-500/30">
+        <div className="mx-auto mb-4 flex h-20 w-20 animate-float items-center justify-center rounded-full bg-gradient-to-br from-gold-400 to-gold-600 text-4xl shadow-lg shadow-gold-500/30">
           🎉
         </div>
         <h2 className="mb-2 text-2xl font-black text-slate-900 dark:text-white">
@@ -91,7 +91,7 @@ export function SuccessModal({
         <button
           type="button"
           onClick={onClose}
-          className="w-full rounded-2xl bg-gradient-to-r from-brand-500 to-purple-600 px-4 py-3 font-black text-white transition hover:opacity-90"
+          className="w-full rounded-2xl bg-gradient-to-r from-navy-700 to-navy-900 px-4 py-3 font-black text-white transition hover:opacity-90"
         >
           Send another gift
         </button>

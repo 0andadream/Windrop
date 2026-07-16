@@ -37,7 +37,7 @@ export function TicketSelector({
   const total = value * TICKET_PRICE_USDC;
 
   return (
-    <div className="rounded-3xl bg-gradient-to-br from-brand-500 via-indigo-500 to-purple-600 bg-animated-gradient animate-gradient-pan p-[2px] shadow-lg shadow-brand-500/20">
+    <div className="rounded-3xl bg-gradient-to-br from-gold-400 via-gold-500 to-gold-600 bg-animated-gradient animate-gradient-pan p-[2px] shadow-lg shadow-gold-500/25">
       <div className="rounded-[calc(1.5rem-2px)] bg-white p-6 dark:bg-slate-900">
         <div className="mb-4 flex items-center justify-between">
           <span className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
@@ -61,7 +61,7 @@ export function TicketSelector({
           </button>
 
           <div className="flex flex-col items-center">
-            <span className="bg-gradient-to-br from-brand-500 to-purple-600 bg-clip-text text-7xl font-black leading-none text-transparent tabular-nums">
+            <span className="bg-gradient-to-br from-gold-500 to-gold-600 bg-clip-text text-7xl font-black leading-none text-transparent tabular-nums">
               {value}
             </span>
             <span className="mt-1 text-xs font-medium uppercase tracking-widest text-slate-400">
@@ -105,7 +105,7 @@ export function TicketSelector({
             disabled={disabled}
             onClick={surprise}
             aria-label="Surprise me with a random ticket count"
-            className="rounded-xl bg-gradient-to-br from-amber-400 to-pink-500 py-2.5 text-lg font-bold text-white shadow-md transition hover:opacity-90 disabled:opacity-40"
+            className="rounded-xl bg-gradient-to-br from-gold-300 to-gold-500 py-2.5 text-lg font-bold text-navy-900 shadow-md transition hover:opacity-90 disabled:opacity-40"
             title="Surprise me!"
           >
             🎲

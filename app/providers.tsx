@@ -73,9 +73,14 @@ export function Providers({ children }: { children: ReactNode }) {
     <PrivyProvider
       appId={PRIVY_APP_ID}
       config={{
+        // "Sign in with X" is the primary login; a wallet (which we create for
+        // users without one) is linked to their X handle. Email is a fallback.
+        // NOTE: enable the Twitter/X OAuth provider in your Privy dashboard for
+        // this to work in production.
+        loginMethods: ["twitter", "wallet", "email"],
         appearance: {
           theme: "light",
-          accentColor: "#3563ff",
+          accentColor: "#14264d",
           logo: undefined,
         },
         defaultChain: base,

@@ -41,7 +41,7 @@ export function GiftButton({
       type="button"
       disabled={disabled || busy}
       onClick={onClick}
-      className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-brand-500 via-indigo-500 to-purple-600 bg-animated-gradient animate-gradient-pan px-6 py-4 text-lg font-black text-white shadow-lg shadow-brand-500/30 transition active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
+      className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-navy-700 via-navy-800 to-navy-900 bg-animated-gradient animate-gradient-pan px-6 py-4 text-lg font-black text-white shadow-lg shadow-brand-500/30 transition active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
     >
       <span className="flex items-center justify-center gap-2">
         {busy && (

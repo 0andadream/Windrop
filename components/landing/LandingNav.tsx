@@ -16,9 +16,9 @@ function Mark() {
       <svg width="30" height="30" viewBox="0 0 512 512" aria-hidden>
         <defs>
           <linearGradient id="lnav-mark" x1="0" y1="0" x2="512" y2="512">
-            <stop offset="0" stopColor="#3563ff" />
-            <stop offset="0.55" stopColor="#6d5cf6" />
-            <stop offset="1" stopColor="#22c55e" />
+            <stop offset="0" stopColor="#14264d" />
+            <stop offset="0.55" stopColor="#12213f" />
+            <stop offset="1" stopColor="#0a1430" />
           </linearGradient>
         </defs>
         <rect width="512" height="512" rx="120" fill="url(#lnav-mark)" />
@@ -28,11 +28,11 @@ function Mark() {
         />
         <path
           d="M256 250c8 34 18 44 52 52-34 8-44 18-52 52-8-34-18-44-52-52 34-8 44-18 52-52Z"
-          fill="#facc15"
+          fill="#e3c15a"
         />
       </svg>
       <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white">
-        Win<span className="text-brand-500">Drop</span>
+        Win<span className="text-gold-600">Drop</span>
       </span>
     </Link>
   );
@@ -61,7 +61,7 @@ export function LandingNav() {
         <div className="flex items-center gap-2">
           <Link
             href="/gift"
-            className="hidden rounded-full bg-gradient-to-r from-brand-500 via-indigo-500 to-purple-600 bg-animated-gradient animate-gradient-pan px-5 py-2.5 text-sm font-black text-white shadow-md shadow-brand-500/30 transition hover:shadow-lg hover:shadow-brand-500/40 active:scale-[0.98] sm:block"
+            className="hidden rounded-full bg-gradient-to-r from-navy-700 via-navy-800 to-navy-900 bg-animated-gradient animate-gradient-pan px-5 py-2.5 text-sm font-black text-white shadow-md shadow-brand-500/30 transition hover:shadow-lg hover:shadow-brand-500/40 active:scale-[0.98] sm:block"
           >
             Gift Now
           </Link>
@@ -110,7 +110,7 @@ export function LandingNav() {
             <Link
               href="/gift"
               onClick={() => setOpen(false)}
-              className="mt-2 rounded-xl bg-gradient-to-r from-brand-500 to-purple-600 px-3 py-3 text-center text-sm font-black text-white"
+              className="mt-2 rounded-xl bg-gradient-to-r from-navy-700 to-navy-900 px-3 py-3 text-center text-sm font-black text-white"
             >
               Gift Now
             </Link>

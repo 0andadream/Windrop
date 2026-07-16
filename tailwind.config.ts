@@ -9,17 +9,45 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Primary brand = deep navy (from the WinDrop logo wordmark).
+        // `brand` and `navy` are aliases so existing brand-* classes pick up
+        // the new navy without renaming.
         brand: {
-          50: "#eef4ff",
-          100: "#d9e6ff",
-          200: "#bcd3ff",
-          300: "#8eb5ff",
-          400: "#598cff",
-          500: "#3563ff",
-          600: "#1f40f5",
-          700: "#1730e1",
-          800: "#1929b6",
-          900: "#1a288f",
+          50: "#eef1f7",
+          100: "#d6dded",
+          200: "#b0bfda",
+          300: "#8298c1",
+          400: "#5570a3",
+          500: "#365286",
+          600: "#263e6b",
+          700: "#1c2f54",
+          800: "#0f1d3a",
+          900: "#0a1430",
+        },
+        navy: {
+          50: "#eef1f7",
+          100: "#d6dded",
+          200: "#b0bfda",
+          300: "#8298c1",
+          400: "#5570a3",
+          500: "#365286",
+          600: "#263e6b",
+          700: "#1c2f54",
+          800: "#0f1d3a",
+          900: "#0a1430",
+        },
+        // Accent = warm gold (from the logo mark).
+        gold: {
+          50: "#fbf7ea",
+          100: "#f5eac6",
+          200: "#ecd58c",
+          300: "#e3c15a",
+          400: "#d9ac33",
+          500: "#c69326",
+          600: "#a5761f",
+          700: "#82591c",
+          800: "#6b481d",
+          900: "#5b3d1c",
         },
       },
       fontFamily: {
