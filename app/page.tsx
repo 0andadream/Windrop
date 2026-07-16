@@ -8,48 +8,106 @@ import { TicketSelector } from "@/components/TicketSelector";
 import { RecipientInput } from "@/components/RecipientInput";
 import { GiftButton } from "@/components/GiftButton";
 import { SuccessModal } from "@/components/SuccessModal";
+import { DepositModal } from "@/components/DepositModal";
+import { AccountMenu } from "@/components/AccountMenu";
 import { useGiftTickets } from "@/hooks/useGiftTickets";
 import { ERC20_ABI } from "@/lib/abi";
 import { USDC_ADDRESS } from "@/lib/constants";
-import { formatUsdc, shortenAddress } from "@/lib/format";
+import { formatUsdc } from "@/lib/format";
 
-function Header() {
-  const { ready, authenticated, login, logout, user } = usePrivy();
-  const { address } = useAccount();
+function Logo() {
+  return (
+    <div className="flex items-center gap-2.5">
+      <svg width="30" height="30" viewBox="0 0 512 512" aria-hidden>
+        <defs>
+          <linearGradient id="nav-mark" x1="0" y1="0" x2="512" y2="512">
+            <stop offset="0" stopColor="#3563ff" />
+            <stop offset="0.55" stopColor="#6d5cf6" />
+            <stop offset="1" stopColor="#22c55e" />
+          </linearGradient>
+        </defs>
+        <rect width="512" height="512" rx="120" fill="url(#nav-mark)" />
+        <path
+          d="M256 96C316 190 372 262 372 328a116 116 0 1 1-232 0C140 262 196 190 256 96Z"
+          fill="#fff"
+        />
+        <path
+          d="M256 250c8 34 18 44 52 52-34 8-44 18-52 52-8-34-18-44-52-52 34-8 44-18 52-52Z"
+          fill="#facc15"
+        />
+      </svg>
+      <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white">
+        Win<span className="text-brand-500">Drop</span>
+      </span>
+    </div>
+  );
+}
+
+function TopNav({ onDeposit }: { onDeposit: () => void }) {
+  const { ready, authenticated, login } = usePrivy();
+  const { isConnected } = useAccount();
 
   return (
-    <header className="mb-8 flex items-center justify-between">
-      <div className="flex items-center gap-2">
-        <span className="text-3xl">🎁</span>
-        <span className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
-          Win<span className="text-brand-500">Drop</span>
-        </span>
-      </div>
+    <nav className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/70 backdrop-blur-xl dark:border-slate-800/70 dark:bg-slate-950/70">
+      <div className="mx-auto flex max-w-lg items-center justify-between px-4 py-3">
+        <Logo />
 
-      {ready && (
-        <div>
-          {authenticated ? (
-            <button
-              type="button"
-              onClick={logout}
-              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
-            >
-              {address
-                ? shortenAddress(address)
-                : user?.email?.address ?? "Sign out"}
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={login}
-              className="rounded-full bg-gradient-to-r from-brand-500 to-purple-600 px-5 py-2 text-sm font-black text-white shadow-md shadow-brand-500/30 transition hover:opacity-90"
-            >
-              Connect
-            </button>
-          )}
-        </div>
-      )}
-    </header>
+        {ready && (
+          <div className="flex items-center gap-2">
+            {authenticated && isConnected ? (
+              <>
+                <button
+                  type="button"
+                  onClick={onDeposit}
+                  className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white/80 px-3.5 py-2 text-sm font-bold text-slate-700 shadow-sm backdrop-blur transition hover:border-brand-300 hover:text-brand-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200 dark:hover:border-brand-700"
+                >
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden
+                  >
+                    <path
+                      d="M12 5v14M5 12l7 7 7-7"
+                      stroke="currentColor"
+                      strokeWidth="2.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  Deposit
+                </button>
+                <AccountMenu />
+              </>
+            ) : (
+              <button
+                type="button"
+                onClick={login}
+                className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-brand-500 via-indigo-500 to-purple-600 bg-animated-gradient animate-gradient-pan px-4 py-2 text-sm font-black text-white shadow-md shadow-brand-500/30 transition hover:shadow-lg hover:shadow-brand-500/40 active:scale-[0.98]"
+              >
+                Launch App
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden
+                >
+                  <path
+                    d="M5 12h14M13 6l6 6-6 6"
+                    stroke="currentColor"
+                    strokeWidth="2.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </nav>
   );
 }
 
@@ -60,14 +118,9 @@ export default function Home() {
   const [tickets, setTickets] = useState(5);
   const [recipient, setRecipient] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showDeposit, setShowDeposit] = useState(false);
 
-  const {
-    status,
-    error,
-    buyHash,
-    gift,
-    reset,
-  } = useGiftTickets();
+  const { status, error, buyHash, gift, reset } = useGiftTickets();
 
   const { data: usdcBalance } = useReadContract({
     address: USDC_ADDRESS,
@@ -106,9 +159,9 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-brand-50 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
-      <div className="mx-auto max-w-lg px-4 py-8 sm:py-12">
-        <Header />
+      <TopNav onDeposit={() => setShowDeposit(true)} />
 
+      <div className="mx-auto max-w-lg px-4 py-10 sm:py-14">
         {/* Hero */}
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-black leading-tight tracking-tight text-slate-900 sm:text-5xl dark:text-white">
@@ -123,21 +176,27 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Balance chip */}
+        {/* Balance + deposit */}
         {isConnected && usdcBalance !== undefined && (
-          <div className="mb-4 flex justify-center">
+          <div className="mb-5 flex items-center justify-center gap-2">
             <span className="rounded-full bg-white/70 px-4 py-1.5 text-sm font-semibold text-slate-600 shadow-sm backdrop-blur dark:bg-slate-900/70 dark:text-slate-300">
-              Balance: {formatUsdc(usdcBalance as bigint)} USDC
+              Balance:{" "}
+              <span className="font-bold text-slate-900 dark:text-white">
+                {formatUsdc(usdcBalance as bigint)} USDC
+              </span>
             </span>
+            <button
+              type="button"
+              onClick={() => setShowDeposit(true)}
+              className="rounded-full bg-brand-50 px-3 py-1.5 text-sm font-bold text-brand-600 transition hover:bg-brand-100 dark:bg-brand-900/40 dark:text-brand-300 dark:hover:bg-brand-900/60"
+            >
+              + Deposit
+            </button>
           </div>
         )}
 
         <div className="space-y-5">
-          <TicketSelector
-            value={tickets}
-            onChange={setTickets}
-            disabled={busy}
-          />
+          <TicketSelector value={tickets} onChange={setTickets} disabled={busy} />
 
           <RecipientInput
             value={recipient}
@@ -157,9 +216,9 @@ export default function Home() {
             <button
               type="button"
               onClick={login}
-              className="w-full rounded-2xl bg-gradient-to-r from-brand-500 to-purple-600 px-6 py-4 text-lg font-black text-white shadow-lg shadow-brand-500/30 transition hover:opacity-90"
+              className="w-full rounded-2xl bg-gradient-to-r from-brand-500 via-indigo-500 to-purple-600 bg-animated-gradient animate-gradient-pan px-6 py-4 text-lg font-black text-white shadow-lg shadow-brand-500/30 transition hover:shadow-xl hover:shadow-brand-500/40 active:scale-[0.99]"
             >
-              Connect to start gifting
+              Launch App to start gifting
             </button>
           ) : (
             <GiftButton
@@ -170,7 +229,7 @@ export default function Home() {
             />
           )}
 
-          {/* In-flight approval receipt link */}
+          {/* In-flight status */}
           {status === "confirming-purchase" && buyHash && (
             <p className="text-center text-xs text-slate-400">
               Purchase submitted — waiting for confirmation…
@@ -182,6 +241,12 @@ export default function Home() {
           Powered by Megapot on Base · Referrer-free · Non-custodial
         </footer>
       </div>
+
+      <DepositModal
+        open={showDeposit}
+        address={address}
+        onClose={() => setShowDeposit(false)}
+      />
 
       <SuccessModal
         open={showSuccess}
