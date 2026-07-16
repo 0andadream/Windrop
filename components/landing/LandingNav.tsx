@@ -58,7 +58,13 @@ export function LandingNav() {
           ))}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/dashboard"
+            className="hidden text-sm font-bold text-slate-600 transition hover:text-slate-900 md:block dark:text-slate-400 dark:hover:text-white"
+          >
+            Dashboard
+          </Link>
           <Link
             href="/gift"
             className="hidden rounded-full bg-gradient-to-r from-navy-700 via-navy-800 to-navy-900 bg-animated-gradient animate-gradient-pan px-5 py-2.5 text-sm font-black text-white shadow-md shadow-brand-500/30 transition hover:shadow-lg hover:shadow-brand-500/40 active:scale-[0.98] sm:block"
@@ -107,6 +113,13 @@ export function LandingNav() {
                 {l.label}
               </a>
             ))}
+            <Link
+              href="/dashboard"
+              onClick={() => setOpen(false)}
+              className="rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+            >
+              Dashboard
+            </Link>
             <Link
               href="/gift"
               onClick={() => setOpen(false)}

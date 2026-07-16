@@ -1,0 +1,83 @@
+"use client";
+
+import { useEffect } from "react";
+import confetti from "canvas-confetti";
+import { basescanTx } from "@/lib/constants";
+
+interface TxSuccessModalProps {
+  open: boolean;
+  emoji?: string;
+  title: string;
+  message: React.ReactNode;
+  txHash: string | null;
+  ctaLabel?: string;
+  onClose: () => void;
+}
+
+function fireConfetti() {
+  const colors = ["#0a1430", "#c69326", "#e3c15a", "#365286"];
+  const end = Date.now() + 800;
+  (function frame() {
+    confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, colors });
+    confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, colors });
+    if (Date.now() < end) requestAnimationFrame(frame);
+  })();
+  confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 }, colors });
+}
+
+export function TxSuccessModal({
+  open,
+  emoji = "🎉",
+  title,
+  message,
+  txHash,
+  ctaLabel = "Done",
+  onClose,
+}: TxSuccessModalProps) {
+  useEffect(() => {
+    if (open) fireConfetti();
+  }, [open]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-sm animate-pop-in rounded-3xl bg-white p-8 text-center shadow-2xl dark:bg-slate-900"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mx-auto mb-4 flex h-20 w-20 animate-float items-center justify-center rounded-full bg-gradient-to-br from-gold-400 to-gold-600 text-4xl shadow-lg shadow-gold-500/30">
+          {emoji}
+        </div>
+        <h2 className="mb-2 text-2xl font-black text-slate-900 dark:text-white">
+          {title}
+        </h2>
+        <p className="mb-6 text-slate-600 dark:text-slate-400">{message}</p>
+
+        {txHash && (
+          <a
+            href={basescanTx(txHash)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-100 px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+          >
+            View receipt on Basescan ↗
+          </a>
+        )}
+
+        <button
+          type="button"
+          onClick={onClose}
+          className="w-full rounded-2xl bg-gradient-to-r from-navy-700 to-navy-900 px-4 py-3 font-black text-white transition hover:opacity-90"
+        >
+          {ctaLabel}
+        </button>
+      </div>
+    </div>
+  );
+}

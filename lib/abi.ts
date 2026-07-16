@@ -28,6 +28,16 @@ export const ERC20_ABI = [
     ],
     outputs: [{ name: "", type: "bool" }],
   },
+  {
+    type: "function",
+    name: "transfer",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "to", type: "address" },
+      { name: "amount", type: "uint256" },
+    ],
+    outputs: [{ name: "", type: "bool" }],
+  },
 ] as const;
 
 // Megapot JackpotRandomTicketBuyer.
@@ -42,6 +52,30 @@ export const TICKET_BUYER_ABI = [
       { name: "_value", type: "uint256" },
       { name: "_recipient", type: "address" },
     ],
+    outputs: [],
+  },
+] as const;
+
+// Megapot BaseJackpot (main jackpot). Minimal fragments for reading a user's
+// position and claiming winnings. usersInfo returns the on-chain per-user
+// struct; withdrawWinnings() pays out claimable winnings to the caller.
+export const JACKPOT_ABI = [
+  {
+    type: "function",
+    name: "usersInfo",
+    stateMutability: "view",
+    inputs: [{ name: "user", type: "address" }],
+    outputs: [
+      { name: "ticketsPurchasedTotalBps", type: "uint256" },
+      { name: "winningsClaimable", type: "uint256" },
+      { name: "active", type: "bool" },
+    ],
+  },
+  {
+    type: "function",
+    name: "withdrawWinnings",
+    stateMutability: "nonpayable",
+    inputs: [],
     outputs: [],
   },
 ] as const;

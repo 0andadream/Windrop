@@ -1,95 +1,21 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { usePrivy } from "@privy-io/react-auth";
 import { useAccount, useReadContract } from "wagmi";
 import { isAddress } from "viem";
+import { AppNav } from "@/components/AppNav";
 import { TicketSelector } from "@/components/TicketSelector";
 import { RecipientInput } from "@/components/RecipientInput";
 import { GiftButton } from "@/components/GiftButton";
 import { SuccessModal } from "@/components/SuccessModal";
 import { DepositModal } from "@/components/DepositModal";
-import { AccountMenu } from "@/components/AccountMenu";
 import { useGiftTickets } from "@/hooks/useGiftTickets";
 import { ERC20_ABI } from "@/lib/abi";
 import { USDC_ADDRESS } from "@/lib/constants";
 import { formatUsdc } from "@/lib/format";
-
-function Logo() {
-  return (
-    <Link href="/" className="flex items-center gap-2.5" aria-label="WinDrop home">
-      <svg width="30" height="30" viewBox="0 0 512 512" aria-hidden>
-        <defs>
-          <linearGradient id="gift-mark" x1="0" y1="0" x2="512" y2="512">
-            <stop offset="0" stopColor="#14264d" />
-            <stop offset="0.55" stopColor="#12213f" />
-            <stop offset="1" stopColor="#0a1430" />
-          </linearGradient>
-        </defs>
-        <rect width="512" height="512" rx="120" fill="url(#gift-mark)" />
-        <path
-          d="M256 96C316 190 372 262 372 328a116 116 0 1 1-232 0C140 262 196 190 256 96Z"
-          fill="#fff"
-        />
-        <path
-          d="M256 250c8 34 18 44 52 52-34 8-44 18-52 52-8-34-18-44-52-52 34-8 44-18 52-52Z"
-          fill="#e3c15a"
-        />
-      </svg>
-      <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white">
-        Win<span className="text-gold-600">Drop</span>
-      </span>
-    </Link>
-  );
-}
-
-function TopNav({ onDeposit }: { onDeposit: () => void }) {
-  const { ready, authenticated, login } = usePrivy();
-  const { isConnected } = useAccount();
-
-  return (
-    <nav className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/70 backdrop-blur-xl dark:border-slate-800/70 dark:bg-slate-950/70">
-      <div className="mx-auto flex max-w-lg items-center justify-between px-4 py-3">
-        <Logo />
-
-        {ready && (
-          <div className="flex items-center gap-2">
-            {authenticated && isConnected ? (
-              <>
-                <button
-                  type="button"
-                  onClick={onDeposit}
-                  className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white/80 px-3.5 py-2 text-sm font-bold text-slate-700 shadow-sm backdrop-blur transition hover:border-brand-300 hover:text-brand-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200 dark:hover:border-brand-700"
-                >
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
-                    <path
-                      d="M12 5v14M5 12l7 7 7-7"
-                      stroke="currentColor"
-                      strokeWidth="2.4"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  Deposit
-                </button>
-                <AccountMenu />
-              </>
-            ) : (
-              <button
-                type="button"
-                onClick={login}
-                className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-navy-700 via-navy-800 to-navy-900 bg-animated-gradient animate-gradient-pan px-4 py-2 text-sm font-black text-white shadow-md shadow-brand-500/30 transition hover:shadow-lg hover:shadow-brand-500/40 active:scale-[0.98]"
-              >
-                Connect
-              </button>
-            )}
-          </div>
-        )}
-      </div>
-    </nav>
-  );
-}
+import { recordGift } from "@/lib/giftLog";
 
 export default function GiftPage() {
   const { ready, authenticated, login } = usePrivy();
@@ -97,8 +23,10 @@ export default function GiftPage() {
 
   const [tickets, setTickets] = useState(5);
   const [recipient, setRecipient] = useState("");
+  const [search, setSearch] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
   const [showDeposit, setShowDeposit] = useState(false);
+  const recordedRef = useRef(false);
 
   const { status, error, buyHash, gift, reset } = useGiftTickets();
 
@@ -127,9 +55,35 @@ export default function GiftPage() {
   const recipientValid = isAddress(recipient.trim());
   const busy = status !== "idle" && status !== "error" && status !== "success";
 
+  // Search accepts a pasted address (fills recipient) or an @handle / Megapot
+  // username (surfaces the hint until on-chain resolution ships).
+  const handleSearch = (raw: string) => {
+    setSearch(raw);
+    const v = raw.trim();
+    if (isAddress(v)) {
+      setRecipient(v);
+      setPrefillHandle(null);
+    } else if (v) {
+      setPrefillHandle(v.replace(/^@/, ""));
+    } else {
+      setPrefillHandle(null);
+    }
+  };
+
   useEffect(() => {
-    if (status === "success") setShowSuccess(true);
-  }, [status]);
+    if (status !== "success") return;
+    setShowSuccess(true);
+    if (buyHash && !recordedRef.current) {
+      recordedRef.current = true;
+      recordGift({
+        recipient: recipient.trim(),
+        handle: prefillHandle ?? undefined,
+        tickets,
+        hash: buyHash,
+        ts: Date.now(),
+      });
+    }
+  }, [status, buyHash, recipient, prefillHandle, tickets]);
 
   const canGift = useMemo(
     () => ready && authenticated && isConnected && recipientValid && !busy,
@@ -147,12 +101,15 @@ export default function GiftPage() {
   const handleCloseSuccess = () => {
     setShowSuccess(false);
     setRecipient("");
+    setSearch("");
+    setPrefillHandle(null);
+    recordedRef.current = false;
     reset();
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-brand-50 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
-      <TopNav onDeposit={() => setShowDeposit(true)} />
+    <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-navy-50 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
+      <AppNav active="gift" onDeposit={() => setShowDeposit(true)} />
 
       <div className="mx-auto max-w-lg px-4 py-10 sm:py-14">
         {/* Header */}
@@ -202,6 +159,38 @@ export default function GiftPage() {
         <div className="space-y-5">
           <TicketSelector value={tickets} onChange={setTickets} disabled={busy} />
 
+          {/* Search by X handle / Megapot username */}
+          <div>
+            <label
+              htmlFor="recipient-search"
+              className="mb-2 block text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400"
+            >
+              Find a recipient
+            </label>
+            <div className="relative">
+              <span
+                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+                aria-hidden
+              >
+                🔍
+              </span>
+              <input
+                id="recipient-search"
+                value={search}
+                onChange={(e) => handleSearch(e.target.value)}
+                disabled={busy}
+                placeholder="@handle, Megapot username, or paste 0x address"
+                spellCheck={false}
+                autoComplete="off"
+                className="w-full rounded-2xl border-2 border-slate-200 bg-white px-4 py-3 pl-10 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-navy-500 disabled:opacity-60 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
+              />
+            </div>
+            <p className="mt-1.5 px-1 text-xs text-slate-400">
+              Paste a Base wallet address to gift instantly — handle resolution
+              is coming soon.
+            </p>
+          </div>
+
           <RecipientInput
             value={recipient}
             onChange={setRecipient}
@@ -221,7 +210,7 @@ export default function GiftPage() {
               onClick={login}
               className="w-full rounded-2xl bg-gradient-to-r from-navy-700 via-navy-800 to-navy-900 bg-animated-gradient animate-gradient-pan px-6 py-4 text-lg font-black text-white shadow-lg shadow-brand-500/30 transition hover:shadow-xl hover:shadow-brand-500/40 active:scale-[0.99]"
             >
-              Connect to start gifting
+              Sign in with X to gift
             </button>
           ) : (
             <GiftButton
