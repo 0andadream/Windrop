@@ -1,0 +1,104 @@
+<svg width="1200" height="1500" viewBox="0 0 1200 1500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bs-grad" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3563ff"/>
+      <stop offset="0.55" stop-color="#6d5cf6"/>
+      <stop offset="1" stop-color="#22c55e"/>
+    </linearGradient>
+    <linearGradient id="bs-cel" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#facc15"/>
+      <stop offset="1" stop-color="#ec4899"/>
+    </linearGradient>
+    <linearGradient id="bs-mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3563ff"/><stop offset="0.55" stop-color="#6d5cf6"/><stop offset="1" stop-color="#22c55e"/>
+    </linearGradient>
+    <linearGradient id="bs-drop" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#e7edff"/>
+    </linearGradient>
+    <linearGradient id="bs-word" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3563ff"/><stop offset="0.5" stop-color="#6d5cf6"/><stop offset="1" stop-color="#22c55e"/>
+    </linearGradient>
+    <linearGradient id="bs-wordd" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8eb5ff"/><stop offset="0.5" stop-color="#a78bfa"/><stop offset="1" stop-color="#4ade80"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="1500" fill="#ffffff"/>
+  <rect x="0" y="0" width="1200" height="14" fill="url(#bs-grad)"/>
+
+  <text x="80" y="110" font-family="Inter, sans-serif" font-size="30" font-weight="800" fill="#94a3b8" letter-spacing="4">BRAND KIT</text>
+  <text x="80" y="170" font-family="Inter, sans-serif" font-size="64" font-weight="900" fill="#0b1120" letter-spacing="-2">WinDrop</text>
+
+  <!-- Logo lockups -->
+  <text x="80" y="250" font-family="Inter, sans-serif" font-size="24" font-weight="700" fill="#64748b">LOGO</text>
+
+  <!-- Light lockup -->
+  <rect x="80" y="270" width="500" height="180" rx="24" fill="#f1f5f9"/>
+  <g transform="translate(110,310)">
+    <rect width="100" height="100" rx="24" fill="url(#bs-mark)"/>
+    <path d="M50 18C61.7 37 72.6 51.1 72.6 64a22.6 22.6 0 1 1-45.2 0C27.4 51.1 38.3 37 50 18Z" fill="url(#bs-drop)"/>
+    <path d="M50 48c1.6 6.6 3.5 8.6 10.1 10.1C53.5 59.7 51.6 61.6 50 68.3c-1.6-6.6-3.5-8.6-10.1-10.1C46.5 56.6 48.4 54.7 50 48Z" fill="#facc15"/>
+  </g>
+  <text x="230" y="378" font-family="Inter, sans-serif" font-size="58" font-weight="900" letter-spacing="-2"><tspan fill="#0b1120">Win</tspan><tspan fill="url(#bs-word)">Drop</tspan></text>
+
+  <!-- Dark lockup -->
+  <rect x="620" y="270" width="500" height="180" rx="24" fill="#0b1120"/>
+  <g transform="translate(650,310)">
+    <rect width="100" height="100" rx="24" fill="url(#bs-mark)"/>
+    <path d="M50 18C61.7 37 72.6 51.1 72.6 64a22.6 22.6 0 1 1-45.2 0C27.4 51.1 38.3 37 50 18Z" fill="url(#bs-drop)"/>
+    <path d="M50 48c1.6 6.6 3.5 8.6 10.1 10.1C53.5 59.7 51.6 61.6 50 68.3c-1.6-6.6-3.5-8.6-10.1-10.1C46.5 56.6 48.4 54.7 50 48Z" fill="#facc15"/>
+  </g>
+  <text x="770" y="378" font-family="Inter, sans-serif" font-size="58" font-weight="900" letter-spacing="-2"><tspan fill="#ffffff">Win</tspan><tspan fill="url(#bs-wordd)">Drop</tspan></text>
+
+  <!-- Palette -->
+  <text x="80" y="540" font-family="Inter, sans-serif" font-size="24" font-weight="700" fill="#64748b">PALETTE</text>
+  <g font-family="Inter, sans-serif">
+    <!-- swatch helper repeated -->
+    <rect x="80"  y="560" width="150" height="150" rx="20" fill="#3563ff"/>
+    <text x="80" y="740" font-size="22" font-weight="800" fill="#0b1120">Blue</text>
+    <text x="80" y="766" font-size="20" fill="#64748b">#3563ff</text>
+
+    <rect x="255" y="560" width="150" height="150" rx="20" fill="#6d5cf6"/>
+    <text x="255" y="740" font-size="22" font-weight="800" fill="#0b1120">Iris</text>
+    <text x="255" y="766" font-size="20" fill="#64748b">#6d5cf6</text>
+
+    <rect x="430" y="560" width="150" height="150" rx="20" fill="#22c55e"/>
+    <text x="430" y="740" font-size="22" font-weight="800" fill="#0b1120">Green</text>
+    <text x="430" y="766" font-size="20" fill="#64748b">#22c55e</text>
+
+    <rect x="605" y="560" width="150" height="150" rx="20" fill="#facc15"/>
+    <text x="605" y="740" font-size="22" font-weight="800" fill="#0b1120">Yellow</text>
+    <text x="605" y="766" font-size="20" fill="#64748b">#facc15</text>
+
+    <rect x="780" y="560" width="150" height="150" rx="20" fill="#ec4899"/>
+    <text x="780" y="740" font-size="22" font-weight="800" fill="#0b1120">Pink</text>
+    <text x="780" y="766" font-size="20" fill="#64748b">#ec4899</text>
+
+    <rect x="955" y="560" width="150" height="150" rx="20" fill="#0b1120"/>
+    <text x="955" y="740" font-size="22" font-weight="800" fill="#0b1120">Ink</text>
+    <text x="955" y="766" font-size="20" fill="#64748b">#0b1120</text>
+  </g>
+
+  <!-- Gradients -->
+  <text x="80" y="850" font-family="Inter, sans-serif" font-size="24" font-weight="700" fill="#64748b">GRADIENTS</text>
+  <rect x="80" y="870" width="500" height="90" rx="18" fill="url(#bs-grad)"/>
+  <text x="100" y="925" font-family="Inter, sans-serif" font-size="24" font-weight="800" fill="#ffffff">Signature · blue → iris → green</text>
+  <rect x="620" y="870" width="485" height="90" rx="18" fill="url(#bs-cel)"/>
+  <text x="640" y="925" font-family="Inter, sans-serif" font-size="24" font-weight="800" fill="#ffffff">Celebration · yellow → pink</text>
+
+  <!-- Taglines -->
+  <text x="80" y="1050" font-family="Inter, sans-serif" font-size="24" font-weight="700" fill="#64748b">TAGLINES</text>
+  <text x="80" y="1120" font-family="Inter, sans-serif" font-size="52" font-weight="900" fill="#0b1120" letter-spacing="-1">“Gift Lottery Luck”</text>
+  <g font-family="Inter, sans-serif" font-size="30" font-weight="600" fill="#475569">
+    <text x="80" y="1180">One Tap, Big Wins</text>
+    <text x="80" y="1228">Drop Someone Some Luck</text>
+    <text x="80" y="1276">Send a Shot at the Jackpot</text>
+    <text x="640" y="1180">Luck, Gift-Wrapped</text>
+    <text x="640" y="1228">Someone's Feeling Lucky</text>
+  </g>
+
+  <!-- Type -->
+  <text x="80" y="1360" font-family="Inter, sans-serif" font-size="24" font-weight="700" fill="#64748b">TYPEFACE</text>
+  <text x="80" y="1430" font-family="Inter, sans-serif" font-size="46" font-weight="900" fill="#0b1120">Inter — Black 900 for display</text>
+  <text x="80" y="1470" font-family="Inter, sans-serif" font-size="26" font-weight="500" fill="#475569">Regular / Semibold for body · tabular-nums for ticket counts</text>
+</svg>
