@@ -5,8 +5,12 @@ import { Providers } from "./providers";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
+// Canonical site URL. Set NEXT_PUBLIC_SITE_URL in your host (e.g. your
+// Netlify site URL); falls back to localhost for local dev.
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://windrop.app"),
+  metadataBase: new URL(siteUrl),
   title: "WinDrop — Gift Lottery Luck",
   description:
     "Gift Megapot lottery tickets to any wallet on Base. One tap, big wins.",

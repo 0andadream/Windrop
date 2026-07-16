@@ -102,6 +102,13 @@ lib/
   externals and stubs `@react-native-async-storage/async-storage` to silence
   optional-dependency warnings from wagmi / wallet SDKs.
 
+## Deployment
+
+The site deploys to **Netlify** and the extension to the **Chrome Web Store**,
+both via GitHub Actions. See [`DEPLOY.md`](./DEPLOY.md) for the full setup
+(secrets, environment variables, and the publish flow). Set `NEXT_PUBLIC_SITE_URL`
+to your deployed URL so social/OG tags resolve correctly.
+
 ## Branding
 
 The full brand kit — color palette, logo/marks, taglines, favicon, and social

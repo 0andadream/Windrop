@@ -1,0 +1,73 @@
+name: Build & publish extension
+
+on:
+  push:
+    tags: ["ext-v*"]
+  workflow_dispatch:
+
+jobs:
+  package:
+    name: Build & package (chrome-mv3)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: extension
+    outputs:
+      zip: ${{ steps.pkg.outputs.zip }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: extension/package-lock.json
+      - run: npm ci
+      - name: Build & package
+        id: pkg
+        # PLASMO_PUBLIC_WINDROP_URL can be provided as a repo variable to point
+        # the extension at your deployed site; falls back to the code default.
+        env:
+          PLASMO_PUBLIC_WINDROP_URL: ${{ vars.PLASMO_PUBLIC_WINDROP_URL }}
+        run: |
+          npm run build
+          npm run package
+          echo "zip=extension/build/chrome-mv3-prod.zip" >> "$GITHUB_OUTPUT"
+      - name: Upload packaged extension
+        uses: actions/upload-artifact@v4
+        with:
+          name: windrop-chrome-mv3
+          path: extension/build/chrome-mv3-prod.zip
+          if-no-files-found: error
+
+  publish:
+    name: Publish to Chrome Web Store (optional)
+    needs: package
+    runs-on: ubuntu-latest
+    # Only runs on a tag push once BPP_KEYS is configured. The FIRST store
+    # submission must be done manually in the dashboard; BPP can only update
+    # an item that already exists.
+    if: startsWith(github.ref, 'refs/tags/ext-v')
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for store credentials
+        id: guard
+        env:
+          BPP_KEYS: ${{ secrets.BPP_KEYS }}
+        run: |
+          if [ -z "$BPP_KEYS" ]; then
+            echo "::warning::BPP_KEYS not set — skipping store publish. Add it after your first manual submission."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/download-artifact@v4
+        if: steps.guard.outputs.ready == 'true'
+        with:
+          name: windrop-chrome-mv3
+          path: extension/build
+      - name: Publish with BPP
+        if: steps.guard.outputs.ready == 'true'
+        uses: PlasmoHQ/bpp@v3
+        with:
+          keys: ${{ secrets.BPP_KEYS }}
+          artifact: extension/build/chrome-mv3-prod.zip

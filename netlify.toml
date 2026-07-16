@@ -1,0 +1,14 @@
+# Netlify configuration for the WinDrop Next.js site.
+# Netlify auto-detects Next.js and applies its Next.js Runtime (SSR, image
+# optimization, and route handlers) — no plugin needs to be pinned here.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# The extension lives in ./extension and is built/published separately
+# (see .github/workflows/deploy-extension.yml). It has its own package.json
+# and is not part of the site build.

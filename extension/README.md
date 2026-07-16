@@ -71,6 +71,18 @@ npm run package    # → a zipped, store-ready bundle
 
 Target another browser with `--target`, e.g. `plasmo build --target=firefox-mv3`.
 
+## Configuration
+
+| Env var | Default | Purpose |
+| --- | --- | --- |
+| `PLASMO_PUBLIC_WINDROP_URL` | `https://windrop.xyz` | Base URL the gift button/popup link to. Set it to your deployed site (see `.env.example`). |
+
+## Store assets
+
+Chrome Web Store listing copy, privacy policy, and promo/screenshot images live
+in [`store/`](./store). See [`../DEPLOY.md`](../DEPLOY.md) for the full
+publish flow (packaging, first manual submission, and CI auto-publish).
+
 ---
 
 ## Permissions
