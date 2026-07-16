@@ -1,7 +1,7 @@
 // Shared config + helpers for the WinDrop extension.
 
 // Where the gift deep-links point. Set PLASMO_PUBLIC_WINDROP_URL in a .env
-// file (e.g. to your deployed Netlify URL) to override the default.
+// file (e.g. to your deployed Vercel URL) to override the default.
 export const WINDROP_BASE_URL =
   process.env.PLASMO_PUBLIC_WINDROP_URL || "https://windrop.xyz";
 

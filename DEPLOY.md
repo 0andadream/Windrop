@@ -4,66 +4,45 @@ Two deployables live in this repo:
 
 | What | Where | How |
 | --- | --- | --- |
-| **Website** (`/`) | Netlify | GitHub Actions → `deploy-web.yml` |
+| **Website** (`/` + `/gift`) | Vercel | Native Git integration (auto-deploy on push) |
 | **Extension** (`/extension`) | Chrome Web Store | GitHub Actions → `deploy-extension.yml` |
 
-CI (`.github/workflows/ci.yml`) builds both on every push/PR. The deploy
-workflows only run on `main` (site) and `ext-v*` tags (extension), and they
-**soft-skip** until you add the secrets below — so nothing fails while you set
-things up.
+CI (`.github/workflows/ci.yml`) builds the site + extension on every push/PR.
+Vercel handles website deploys directly from GitHub — no Actions secrets needed.
 
 ---
 
-## Part 1 — Website on Netlify (GitHub Actions)
+## Part 1 — Website on Vercel
 
-### 1. Create the Netlify site
+Next.js is Vercel's native framework, so this is zero-config.
 
-1. Sign in at [app.netlify.com](https://app.netlify.com).
-2. **Add new site → Import from Git** and pick this repo (or **Add new site →
-   Deploy manually** to just reserve a site — the Actions workflow does the
-   builds either way).
-3. Note the **Site ID**: Site configuration → General → **Site information →
-   Site ID**.
+### 1. Import the repo
 
-### 2. Create a Netlify auth token
+1. Sign in at [vercel.com](https://vercel.com) with GitHub.
+2. **Add New… → Project → Import** this repository.
+3. Framework preset auto-detects **Next.js**. Leave build/output settings at
+   their defaults (`next build`). Click **Deploy**.
 
-Netlify → **User settings → Applications → Personal access tokens → New access
-token**. Copy it.
+Vercel now rebuilds automatically on every push to the connected branch, with
+preview deployments for other branches and PRs.
 
-### 3. Add the GitHub secrets
+### 2. Set environment variables
 
-Repo → **Settings → Secrets and variables → Actions → New repository secret**:
-
-| Secret | Value |
-| --- | --- |
-| `NETLIFY_AUTH_TOKEN` | the personal access token from step 2 |
-| `NETLIFY_SITE_ID` | the Site ID from step 1 |
-
-### 4. Set the site's environment variables (in Netlify)
-
-Netlify → Site configuration → **Environment variables**:
+Vercel → Project → **Settings → Environment Variables** (Production + Preview):
 
 | Variable | Value |
 | --- | --- |
 | `NEXT_PUBLIC_PRIVY_APP_ID` | your **production** Privy app ID ([dashboard.privy.io](https://dashboard.privy.io)) |
-| `NEXT_PUBLIC_SITE_URL` | your site URL, e.g. `https://your-site.netlify.app` |
+| `NEXT_PUBLIC_SITE_URL` | your site URL, e.g. `https://your-app.vercel.app` |
 | `NEXT_PUBLIC_BASE_RPC_URL` | *(optional)* a custom Base RPC |
 
-> In your Privy app settings, add your Netlify domain to the **Allowed origins**
-> so login works in production.
+Redeploy after adding them (Deployments → ⋯ → Redeploy) so they're inlined.
 
-### 5. Deploy
-
-Push to `main` (or run **Actions → Deploy website → Run workflow**). The
-workflow runs `netlify deploy --build --prod`, which builds with Netlify's
-Next.js runtime and publishes.
-
-After the first deploy, set `NEXT_PUBLIC_SITE_URL` to the real URL (step 4) and
-redeploy so social/OG tags are correct.
-
-> **Simpler alternative:** if you'd rather skip Actions, just connect the repo
-> in Netlify's UI (step 1, "Import from Git") — Netlify will build on every push
-> using `netlify.toml`. In that case you don't need the two secrets above.
+> - The marketing landing (`/`) renders without any wallet config. Only the
+>   `/gift` app needs `NEXT_PUBLIC_PRIVY_APP_ID` — without it, `/gift` shows a
+>   friendly setup screen.
+> - In your Privy app settings, add your Vercel domain to the **Allowed origins**
+>   so wallet login works in production.
 
 ---
 
@@ -76,7 +55,7 @@ repository variable**:
 
 | Variable | Value |
 | --- | --- |
-| `PLASMO_PUBLIC_WINDROP_URL` | your deployed site URL (e.g. `https://your-site.netlify.app`) |
+| `PLASMO_PUBLIC_WINDROP_URL` | your deployed site URL (e.g. `https://your-app.vercel.app`) |
 
 (Or set it in `extension/.env` for local builds. Falls back to
 `https://windrop.xyz` if unset.)
@@ -130,9 +109,8 @@ Once the item exists, you can publish updates from CI:
 
 | Name | Type | Used by | Purpose |
 | --- | --- | --- | --- |
-| `NETLIFY_AUTH_TOKEN` | secret | `deploy-web` | Authenticate the Netlify CLI |
-| `NETLIFY_SITE_ID` | secret | `deploy-web` | Target Netlify site |
-| `NEXT_PUBLIC_PRIVY_APP_ID` | Netlify env | site build | Privy auth |
-| `NEXT_PUBLIC_SITE_URL` | Netlify env | site build | Canonical URL for OG tags |
+| `NEXT_PUBLIC_PRIVY_APP_ID` | Vercel env | site build | Privy auth (needed by `/gift`) |
+| `NEXT_PUBLIC_SITE_URL` | Vercel env | site build | Canonical URL for OG tags |
+| `NEXT_PUBLIC_BASE_RPC_URL` | Vercel env | site build | *(optional)* custom Base RPC |
 | `PLASMO_PUBLIC_WINDROP_URL` | repo variable | `deploy-extension` | Where gift links point |
 | `BPP_KEYS` | secret | `deploy-extension` | Chrome Web Store auto-publish |

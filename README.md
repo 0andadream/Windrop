@@ -104,10 +104,13 @@ lib/
 
 ## Deployment
 
-The site deploys to **Netlify** and the extension to the **Chrome Web Store**,
-both via GitHub Actions. See [`DEPLOY.md`](./DEPLOY.md) for the full setup
-(secrets, environment variables, and the publish flow). Set `NEXT_PUBLIC_SITE_URL`
-to your deployed URL so social/OG tags resolve correctly.
+The site deploys to **Vercel** (native Git integration) and the extension to the
+**Chrome Web Store** (GitHub Actions). See [`DEPLOY.md`](./DEPLOY.md) for the full
+setup (environment variables and the publish flow). Set `NEXT_PUBLIC_SITE_URL` to
+your deployed URL so social/OG tags resolve correctly.
+
+The marketing landing (`/`) renders without wallet config; only the `/gift` app
+requires `NEXT_PUBLIC_PRIVY_APP_ID`.
 
 ## Branding
 

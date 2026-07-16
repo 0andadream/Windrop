@@ -1,12 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Providers } from "./providers";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 // Canonical site URL. Set NEXT_PUBLIC_SITE_URL in your host (e.g. your
-// Netlify site URL); falls back to localhost for local dev.
+// Vercel site URL); falls back to localhost for local dev.
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
@@ -50,10 +49,12 @@ export default function RootLayout({
             __html: `(function(){try{var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',d);}catch(e){}})();`,
           }}
         />
+        {/* Scroll-reveal starts hidden; without JS, show everything. */}
+        <noscript>
+          <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
       </head>
-      <body className={`${inter.variable} font-sans`}>
-        <Providers>{children}</Providers>
-      </body>
+      <body className={`${inter.variable} font-sans`}>{children}</body>
     </html>
   );
 }
