@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
@@ -6,9 +6,30 @@ import { Providers } from "./providers";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "WinDrop — Gift Megapot Tickets",
+  metadataBase: new URL("https://windrop.app"),
+  title: "WinDrop — Gift Lottery Luck",
   description:
-    "Gift Megapot lottery tickets to any wallet on Base. Spread the luck.",
+    "Gift Megapot lottery tickets to any wallet on Base. One tap, big wins.",
+  openGraph: {
+    title: "WinDrop — Gift Lottery Luck",
+    description:
+      "Gift Megapot lottery tickets to any wallet on Base. One tap, big wins.",
+    url: "/",
+    siteName: "WinDrop",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "WinDrop" }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "WinDrop — Gift Lottery Luck",
+    description:
+      "Gift Megapot lottery tickets to any wallet on Base. One tap, big wins.",
+    images: ["/og-image.png"],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#3563ff",
 };
 
 export default function RootLayout({

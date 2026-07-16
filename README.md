@@ -102,6 +102,12 @@ lib/
   externals and stubs `@react-native-async-storage/async-storage` to silence
   optional-dependency warnings from wagmi / wallet SDKs.
 
+## Branding
+
+The full brand kit — color palette, logo/marks, taglines, favicon, and social
+preview — lives in [`branding/BRANDING.md`](./branding/BRANDING.md). Logo SVGs
+are in `public/` and `app/icon.svg`; the Open Graph image is `public/og-image.png`.
+
 ## Roadmap
 
 - Gift by X (Twitter) username → resolved wallet
